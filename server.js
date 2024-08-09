@@ -10,6 +10,10 @@ const port = 3000;
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'certificate_generator.html'));
+});
+
 // Create a transporter using Gmail and OAuth2
 const transporter = nodemailer.createTransport({
   service: 'gmail',
