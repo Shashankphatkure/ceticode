@@ -26,7 +26,7 @@ app.get("/", (req, res) => {
 
 app.post("/generate-certificate", async (req, res) => {
   try {
-    const { name, email, date } = req.body;
+    const { name, email, designation, date } = req.body;
 
     // Load the PDF template
     const templatePath = path.join(__dirname, "certificate_template.pdf");
@@ -40,8 +40,15 @@ app.post("/generate-certificate", async (req, res) => {
     // Add text to the PDF
     firstPage.drawText(name, {
       x: 300,
-      y: 300,
+      y: 350,
       size: 30,
+      color: rgb(0, 0, 0),
+    });
+
+    firstPage.drawText(designation, {
+      x: 300,
+      y: 300,
+      size: 20,
       color: rgb(0, 0, 0),
     });
 
