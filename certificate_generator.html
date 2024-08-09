@@ -102,8 +102,16 @@
             const course = document.getElementById('course').value;
             const date = document.getElementById('date').value;
 
-            // Simulate certificate generation and email sending
-            setTimeout(() => {
+            // Send request to server
+            fetch('/generate-certificate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ name, email, course, date }),
+            })
+            .then(response => response.text())
+            .then(data => {
                 const result = document.getElementById('result');
                 result.innerHTML = `
                     <h3>Certificate Generated!</h3>
@@ -112,7 +120,13 @@
                     <p>The certificate has been sent to <strong>${email}</strong>.</p>
                 `;
                 result.style.display = 'block';
-            }, 1500);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                const result = document.getElementById('result');
+                result.innerHTML = `<p>An error occurred while generating the certificate. Please try again.</p>`;
+                result.style.display = 'block';
+            });
 
             // Reset form
             this.reset();
