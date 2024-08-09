@@ -2,6 +2,7 @@ const express = require('express');
 const nodemailer = require('nodemailer');
 const bodyParser = require('body-parser');
 const path = require('path');
+require('dotenv').config();
 
 const app = express();
 const port = 3000;
@@ -9,14 +10,16 @@ const port = 3000;
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Create a transporter using SMTP
+// Create a transporter using Gmail and OAuth2
 const transporter = nodemailer.createTransport({
-  host: 'smtp.example.com', // Replace with your SMTP host
-  port: 587,
-  secure: false, // Use TLS
+  service: 'gmail',
   auth: {
-    user: 'your_email@example.com', // Replace with your email
-    pass: 'your_password' // Replace with your password
+    type: 'OAuth2',
+    user: process.env.EMAIL,
+    clientId: process.env.CLIENT_ID,
+    clientSecret: process.env.CLIENT_SECRET,
+    refreshToken: process.env.REFRESH_TOKEN,
+    accessToken: process.env.ACCESS_TOKEN
   }
 });
 
@@ -27,7 +30,7 @@ app.post('/generate-certificate', (req, res) => {
   // For this example, we'll just send a plain text email
 
   const mailOptions = {
-    from: 'your_email@example.com',
+    from: process.env.EMAIL,
     to: email,
     subject: `Certificate for ${course}`,
     text: `Dear ${name},\n\nCongratulations on completing the ${course} course on ${date}.\n\nYour certificate is attached to this email.\n\nBest regards,\nYour Course Team`
