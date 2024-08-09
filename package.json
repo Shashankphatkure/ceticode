@@ -1,0 +1,15 @@
+{
+  "name": "certificate-generator",
+  "version": "1.0.0",
+  "description": "Certificate generator and emailer",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "body-parser": "^1.19.0",
+    "nodemailer": "^6.6.3",
+    "pdf-lib": "^1.16.0"
+  }
+}
